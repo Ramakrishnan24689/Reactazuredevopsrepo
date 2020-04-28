@@ -8,12 +8,9 @@
 trigger:
 - master
 
-stages:
-
-
 pool:
   vmImage: 'ubuntu-latest'
-stage:
+
 steps:
 - task: NodeTool@0
   inputs:
