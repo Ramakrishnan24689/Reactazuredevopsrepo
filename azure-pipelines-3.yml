@@ -62,6 +62,6 @@ stages:
               ConnectionType: 'AzureRM'
               azureSubscription: 'Azure Devops Service'
               appType: 'webAppLinux'
-              WebAppName: 'ReactAppDev'
+              WebAppName: 'ReactDev'
               packageForLinux: '$(Pipeline.Workspace)/build'
      
