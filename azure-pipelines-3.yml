@@ -19,24 +19,11 @@ stages:
         artifact: 'build'
         publishLocation: 'pipeline'
       
-  - deployment: DeployPackageDev
-    environment: Check
-    strategy:
-     runOnce:
-      deploy:
-        steps:
-          - task: AzureRmWebAppDeployment@4
-            inputs:
-              ConnectionType: 'AzureRM'
-              azureSubscription: 'azuredevopsar'
-              appType: 'webAppLinux'
-              WebAppName: 'ReactAppDev'
-              packageForLinux: '$(Pipeline.Workspace)/build'
 
-- stage: QA
+- stage: Dev
 
   jobs:
-  - deployment: DeployementQA
+  - deployment: DeployementDev
     environment: Check
     strategy:
      runOnce:
@@ -50,8 +37,31 @@ stages:
           - task: AzureRmWebAppDeployment@4
             inputs:
               ConnectionType: 'AzureRM'
-              azureSubscription: 'azuredevopsar'
-              appType: 'webApp'
+              azureSubscription: 'Azure Devops Service'
+              appType: 'webAppLinux'
+              WebAppName: 'ReactAppDev'
+              packageForLinux: '$(Pipeline.Workspace)/build'
+
+
+- stage: QA
+
+  jobs:
+  - deployment: DeployementQA
+    environment: Check
+    strategy:
+     runOnce:
+      deploy:
+         steps:
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              buildType: 'current'
+              targetPath: '$(Pipeline.Workspace)'
+
+          - task: AzureRmWebAppDeployment@4
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: 'Azure Devops Service'
+              appType: 'webAppLinux'
               WebAppName: 'ReactAppDev'
               packageForLinux: '$(Pipeline.Workspace)/build'
      
