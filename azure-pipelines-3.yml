@@ -1,0 +1,57 @@
+stages:
+- stage: Build
+  jobs:
+  - job: BuildPackage
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '10.x'
+      displayName: 'Install Node.js'
+
+    - script: |
+        npm install
+        npm run build
+      displayName: 'npm install and build'
+
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Pipeline.Workspace)'
+        artifact: 'build'
+        publishLocation: 'pipeline'
+      
+  - deployment: DeployPackageDev
+    environment: Check
+    strategy:
+     runOnce:
+      deploy:
+        steps:
+          - task: AzureRmWebAppDeployment@4
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: 'azuredevopsar'
+              appType: 'webAppLinux'
+              WebAppName: 'ReactAppDev'
+              packageForLinux: '$(Pipeline.Workspace)/build'
+
+- stage: QA
+
+  jobs:
+  - deployment: DeployementQA
+    environment: Check
+    strategy:
+     runOnce:
+      deploy:
+         steps:
+          - task: DownloadPipelineArtifact@2
+            inputs:
+             buildType: 'current'
+             targetPath: '$(Pipeline.Workspace)'
+
+          - task: AzureRmWebAppDeployment@4
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: 'azuredevopsar'
+              appType: 'webApp'
+              WebAppName: 'ReactAppDev'
+              packageForLinux: '$(Pipeline.Workspace)/build'
+     
