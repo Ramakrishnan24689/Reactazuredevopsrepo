@@ -20,7 +20,7 @@ stages:
 #        publishLocation: 'pipeline'
 
     - publish: $(System.DefaultWorkingDirectory)
-      artifact: WebApp
+      artifact: drop
       
 
 - stage: Dev
@@ -35,7 +35,7 @@ stages:
           - task: DownloadPipelineArtifact@2
             inputs:
               buildType: 'current'
-              targetPath: '$(Pipeline.Workspace)/build'
+              artifactName: 'drop'
 
           - task: AzureRmWebAppDeployment@4
             inputs:
