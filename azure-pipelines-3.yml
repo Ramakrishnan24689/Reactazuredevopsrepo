@@ -33,8 +33,9 @@ stages:
          steps:
           - task: DownloadPipelineArtifact@2
             inputs:
+             artifactName: 'build'
              buildType: 'current'
-             path: '$(Pipeline.Workspace)/build'
+             path: '$(Pipeline.Workspace)'
 
           - task: AzureRmWebAppDeployment@4
             inputs:
