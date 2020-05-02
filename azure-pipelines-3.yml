@@ -13,11 +13,11 @@ stages:
         npm run build
       displayName: 'npm install and build'
 
-    - task: PublishPipelineArtifact@1
+    - task: PublishBuildArtifacts@1
       inputs:
-        targetPath: '$(System.DefaultWorkingDirectory)'
-        artifact: 'drop'
-        publishLocation: 'pipeline'
+        PathtoPublish: '$(System.DefaultWorkingDirectory)'
+        ArtifactName: 'build'
+        publishLocation: 'Container'
       
 
 - stage: Dev
