@@ -42,7 +42,7 @@ stages:
               azureSubscription: 'Azure Devops Service'
               appType: 'webAppLinux'
               WebAppName: 'ReactDev'
-              packageForLinux: '$(Pipeline.Workspace)/build'
+              packageForLinux: '$(System.ArtifactsDirectory)/drop'
 
 
 - stage: QA
