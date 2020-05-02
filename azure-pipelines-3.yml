@@ -41,7 +41,7 @@ stages:
               azureSubscription: 'Azure Devops Service'
               appType: 'webAppLinux'
               WebAppName: 'ReactDev'
-              packageForLinux: '$(System.DefaultWorkingDirectory)/build'
+              packageForLinux: '$(System.DefaultWorkingDirectory)'
 
 
 
