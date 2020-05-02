@@ -33,7 +33,7 @@ stages:
             inputs:
               buildType: 'current'
               artifactName: 'build'
-              targetPath: '$(System.DefaultWorkingDirectory)'
+              targetPath: '$(Build.SourcesDirectory)/bin'
 
           - task: AzureRmWebAppDeployment@4
             inputs:
@@ -41,7 +41,7 @@ stages:
               azureSubscription: 'Azure Devops Service'
               appType: 'webAppLinux'
               WebAppName: 'ReactDev'
-              packageForLinux: '$(System.DefaultWorkingDirectory)'
+              packageForLinux: '$(Build.SourcesDirectory)/bin'
 
 
 
