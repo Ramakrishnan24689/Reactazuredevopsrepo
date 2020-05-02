@@ -15,7 +15,7 @@ stages:
 
     - task: PublishPipelineArtifact@1
       inputs:
-        targetPath: '$(Pipeline.Workspace)'
+        targetPath: '$(Pipeline.Workspace)/ReactApp'
         artifact: 'drop'
         publishLocation: 'pipeline'
       
@@ -41,7 +41,7 @@ stages:
               azureSubscription: 'Azure Devops Service'
               appType: 'webAppLinux'
               WebAppName: 'ReactDev'
-              packageForLinux: '$(System.ArtifactsDirectory)/drop'
+              packageForLinux: '$(Pipeline.Workspace)/drop'
 
 
 - stage: QA
