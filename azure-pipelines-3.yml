@@ -38,9 +38,9 @@ stages:
           - task: AzureRmWebAppDeployment@4
             inputs:
               ConnectionType: 'AzureRM'
-              azureSubscription: 'azuredevopsar'
+              azureSubscription: 'Azure Devops Service'
               appType: 'webApp'
-              WebAppName: 'ReactAppDev'
+              WebAppName: 'ReactDev'
               packageForLinux: '$(Build.SourcesDirectory)/build'
 
 
