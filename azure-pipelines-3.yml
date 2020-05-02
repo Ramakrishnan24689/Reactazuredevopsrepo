@@ -15,8 +15,8 @@ stages:
 
     - task: PublishPipelineArtifact@1
       inputs:
-        targetPath: '$(Pipeline.Workspace)/ReactApp'
-        artifact: 'drop'
+        targetPath: '$(Pipeline.Workspace)'
+        artifact: 'ReactApp/drop'
         publishLocation: 'pipeline'
       
 
