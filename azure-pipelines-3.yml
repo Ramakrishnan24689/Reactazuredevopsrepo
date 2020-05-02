@@ -40,7 +40,7 @@ stages:
               ConnectionType: 'AzureRM'
               azureSubscription: 'azuredevopsar'
               appType: 'webApp'
-              WebAppName: 'ReactDev'
+              WebAppName: 'ReactAppDev'
               packageForLinux: '$(Build.SourcesDirectory)/build'
 
 
