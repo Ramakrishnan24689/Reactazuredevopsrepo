@@ -1,0 +1,70 @@
+stages:
+- stage: Build
+  jobs:
+  - job: BuildPackage
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '10.x'
+      displayName: 'Install Node.js'
+
+    - script: |
+        npm install
+        npm run build
+      displayName: 'npm install and build'
+
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(System.DefaultWorkingDirectory)/build'
+        artifact: 'build'
+        publishLocation: 'pipeline'
+      
+
+- stage: Dev
+
+  jobs:
+  - deployment: DeploymentDev
+    environment: Quality Check
+    strategy:
+     runOnce:
+      deploy:
+         steps:
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              buildType: 'current'
+              artifactName: 'build'
+              targetPath: '$(Build.SourcesDirectory)/build'
+
+          - task: AzureRmWebAppDeployment@4
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: 'Azure Devop Service Connection'
+              appType: 'webApp'
+              WebAppName: 'ReactDev'
+              packageForLinux: '$(Build.SourcesDirectory)/build'
+
+
+
+- stage: QA
+
+  jobs:
+  - deployment: DeploymentQA
+    environment: Quality Check
+    strategy:
+     runOnce:
+      deploy:
+         steps:
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              buildType: 'current'
+              artifactName: 'build'
+              targetPath: '$(Build.SourcesDirectory)/build'
+
+          - task: AzureRmWebAppDeployment@4
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: 'Azure Devop Service Connection'
+              appType: 'webApp'
+              WebAppName: 'ReactDev'
+              packageForLinux: '$(Build.SourcesDirectory)/build'
+     
